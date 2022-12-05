@@ -47,14 +47,14 @@ intToString:
     add rsi, 255
 
     .loop:
+        add rdi, 1
+        sub rsi, 1
+
         xor rdx, rdx
         mov rbx, 10
         div ebx
         add dl, '0'
-        mov [rsi+rdi], dl
-
-        add rdi, 1
-        sub rsi, 1
+        mov [rsi], dl
 
         cmp rax, 0
         jne .loop
