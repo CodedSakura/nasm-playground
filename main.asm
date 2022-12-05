@@ -5,11 +5,19 @@ extern readUserInput
 extern parseInt
 extern intToString
 
+%macro printText 1
+[section .rodata]
+%%msg: db %1
+%%len: equ $ - %%msg
+__?SECT?__
+    mov rdi, %%len
+    mov rsi, %%msg
+    call print
+%endmacro
+
 section .text
 _start:
-    mov rdi, messageLen
-    mov rsi, message
-    call print
+    printText `Enter 1st number: `
 
     call readUserInput
 
@@ -17,15 +25,29 @@ _start:
     cmp rbx, 1
     je .fail
 
+    mov r8, rax
+
+    printText `Enter 2nd number: `
+
+    call readUserInput
+
+    call parseInt
+    cmp rbx, 1
+    je .fail
+
+    add r8, rax
+
+    printText `Sum: `
+
+    mov rax, r8
+
     call intToString
 
     call print
     jmp .end
 
     .fail:
-    mov rdi, badNumLen
-    mov rsi, badNumMsg
-    call print
+    printText `Bad number!`
 
     .end:
     call exit
@@ -36,11 +58,3 @@ exit:
     xor rdi, rdi ; exit code 0
     syscall
     ret
-
-
-section .data
-message     db "Input a number: "
-messageLen  equ $-message
-
-badNumMsg   db "Bad number!", 10
-badNumLen   equ $-badNumMsg
