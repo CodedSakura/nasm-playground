@@ -12,14 +12,14 @@ parseInt:
 
     .loop:
         sub rdi, 1
-        jc .end
+        jc .checkInputAndEnd
 
         xor rdx, rdx
         mov dl, [rsi + rdi]
         cmp dl, '0' ; if dl < '0'
-        jl .error
+        jl .checkSignOrError
         cmp dl, '9' ; if dl > '9'
-        jg .error
+        jg .checkSignOrError
 
         sub dl, '0'
         imul rdx, rcx
@@ -29,6 +29,18 @@ parseInt:
         cmp rdi, 0
         je .end
         jmp .loop
+
+    .checkSignOrError:
+        cmp dl, '+'
+        je .end
+        cmp dl, '-'
+        jne .error
+        neg rax
+        jmp .end
+
+    .checkInputAndEnd:
+        cmp rcx, 1
+        jne .end
 
     .error:
         mov rbx, 1
@@ -41,11 +53,17 @@ global intToString
 ; @param rax - number
 ; @returns rdi - buffer length
 ; @returns rsi - buffer address
-; @returns rbx - 1 if error
 intToString:
     xor rdi, rdi
-    mov rsi, intToStrOut
-    add rsi, 255
+    xor rbx, rbx
+    lea rsi, [intToStrOut+255]
+
+    cmp rax, 0
+    jg .loop
+
+    .negate:
+        neg rax
+        mov rbx, 1
 
     .loop:
         add rdi, 1
@@ -53,12 +71,20 @@ intToString:
 
         xor rdx, rdx
         mov rbx, 10
-        div ebx
+        div rbx
         add dl, '0'
         mov [rsi], dl
 
         cmp rax, 0
         jne .loop
+
+        ; end of loop
+        cmp rbx, 0
+        je .end
+
+        add rdi, 1
+        sub rsi, 1
+        mov [rsi], byte '-'
 
     .end:
         ret
