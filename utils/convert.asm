@@ -1,7 +1,6 @@
-global parseInt
-global intToString
-
 section .text
+
+global parseInt
 ; @param rdi - buffer length
 ; @param rsi - buffer address
 ; @returns rax - result
@@ -37,6 +36,8 @@ parseInt:
     .end:
         ret
 
+
+global intToString
 ; @param rax - number
 ; @returns rdi - buffer length
 ; @returns rsi - buffer address

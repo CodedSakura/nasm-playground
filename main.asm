@@ -1,5 +1,3 @@
-global _start
-
 extern print
 extern readUserInput
 extern parseInt
@@ -16,6 +14,8 @@ __?SECT?__
 %endmacro
 
 section .text
+
+global _start
 _start:
     printText `Enter 1st number: `
 
