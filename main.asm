@@ -2,6 +2,7 @@ extern print
 extern readUserInput
 extern parseInt
 extern intToString
+extern readFileWhole
 
 %macro printText 1
 [section .rodata]
@@ -17,6 +18,10 @@ section .text
 
 global _start
 _start:
+    mov rsi, filename
+    call readFileWhole
+    call exit
+
     printText `Enter 1st number: `
 
     call readUserInput
@@ -58,3 +63,6 @@ exit:
     xor rdi, rdi ; exit code 0
     syscall
     ret
+
+section .rodata
+filename: db "./input.txt"
