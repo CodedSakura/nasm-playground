@@ -5,6 +5,6 @@
 section .text
 global _start
 _start:
-    callExtern addFromUserInput
-    callExtern addFromUserInput
+;    callExtern addFromUserInput
+    callExtern aoc2022day09
     exit
