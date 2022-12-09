@@ -1,0 +1,5 @@
+%macro exit 0-1 0
+    mov rdi, %1 ; exit code
+    mov rax, 60 ; exit
+    syscall
+%endmacro

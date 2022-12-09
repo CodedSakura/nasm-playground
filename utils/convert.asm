@@ -55,15 +55,15 @@ global intToString
 ; @returns rsi - buffer address
 intToString:
     xor rdi, rdi
-    xor rbx, rbx
+    xor rcx, rcx
     lea rsi, [intToStrOut+255]
 
     cmp rax, 0
-    jg .loop
+    jge .loop
 
     .negate:
         neg rax
-        mov rbx, 1
+        mov rcx, 1
 
     .loop:
         add rdi, 1
@@ -79,7 +79,7 @@ intToString:
         jne .loop
 
         ; end of loop
-        cmp rbx, 0
+        cmp rcx, 0
         je .end
 
         add rdi, 1
