@@ -1,0 +1,10 @@
+%ifndef callExtern_DEF
+    %define callExtern_DEF
+    %macro callExtern 1
+    %ifndef %1_INC
+        %define %1_INC
+        extern %1
+    %endif
+        call %1
+    %endmacro
+%endif

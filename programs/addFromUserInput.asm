@@ -1,4 +1,3 @@
-%include "../utils/exit.mac"
 %include "../utils/io.mac"
 
 extern print
@@ -43,5 +42,4 @@ addFromUserInput:
     printText `Bad number!`
 
     .end:
-    exit
     ret

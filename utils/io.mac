@@ -1,10 +1,11 @@
+%include "../utils/utils.mac"
+
 %macro printText 1
-extern print
 [section .rodata]
 %%msg: db %1
 %%len: equ $ - %%msg
 __?SECT?__
     mov rdi, %%len
     mov rsi, %%msg
-    call print
+    callExtern print
 %endmacro
